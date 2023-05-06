@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
+import script from "../scripts/test.ts?raw";
+import { UserService } from "windmill-client";
+
+async function whoami() {
+  const res = await UserService.globalWhoami();
+  console.log(res);
+}
 
 function App() {
   const [count, setCount] = useState(0);
-
+  useEffect(() => {
+    whoami();
+  }, []);
   return (
     <>
       <div>
@@ -21,9 +30,7 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <p className="read-the-docs">{script}</p>
     </>
   );
 }
