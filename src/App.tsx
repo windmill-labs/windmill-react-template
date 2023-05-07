@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import testScript from "../scripts/test.ts?raw";
 import { OpenAPI, UserService } from "windmill-client";
+import { username } from "./utils";
 
 async function whoami() {
   const res = await UserService.globalWhoami();
@@ -14,10 +15,7 @@ function App() {
   useEffect(() => {
     if (import.meta.env.MODE === "development") {
       console.log("Running in development mode");
-      OpenAPI.BASE = import.meta.env.VITE_WINDMILL_BASE_URL;
       OpenAPI.TOKEN = import.meta.env.VITE_TOKEN;
-      console.log(OpenAPI.BASE);
-      console.log(OpenAPI.TOKEN);
     }
 
     whoami();
@@ -29,7 +27,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>FOO{JSON.stringify(import.meta.env)}</h1>
+      <h1>Username: {username}</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}

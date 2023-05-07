@@ -4,22 +4,21 @@ import { Preview } from "windmill-client";
 
 declare global {
   // eslint-disable-next-line no-var
-  var workspace: string | undefined;
-  // eslint-disable-next-line no-var
-  var email: string | undefined;
-  // eslint-disable-next-line no-var
-  var username: string | undefined;
+  var windmill:
+    | {
+        workspace: string | undefined;
+        email: string | undefined;
+        username: string | undefined;
+      }
+    | undefined;
 }
 
-export function getWorkspace(): string {
-  return globalThis.workspace ?? import.meta.env.VITE_WORKSPACE;
-}
-export function getEmail(): string {
-  return globalThis.email ?? import.meta.env.VITE_EMAIL;
-}
-export function getUsername(): string {
-  return globalThis.username ?? import.meta.env.VITE_USERNAME;
-}
+export const workspace: string =
+  globalThis.windmill?.workspace ?? import.meta.env.VITE_WORKSPACE;
+export const email: string =
+  globalThis.windmill?.email ?? import.meta.env.VITE_EMAIL;
+export const username: string =
+  globalThis.windmill?.username ?? import.meta.env.VITE_USERNAME;
 
 export function getUser() {
   return import.meta.env.USER;
@@ -31,7 +30,7 @@ export async function executeInlineScript(
   args: any
 ): Promise<any> {
   const uuid = await JobService.runScriptPreview({
-    workspace: getWorkspace(),
+    workspace: workspace,
     requestBody: {
       content,
       args,
@@ -46,7 +45,7 @@ export async function executeWorkspaceScript(
   args: any
 ): Promise<any> {
   const uuid = await JobService.runScriptByPath({
-    workspace: getWorkspace(),
+    workspace: workspace,
     path,
     requestBody: {
       args,
@@ -60,7 +59,7 @@ export async function executeWorkspaceFlow(
   args: any
 ): Promise<any> {
   const uuid = await JobService.runFlowByPath({
-    workspace: getWorkspace(),
+    workspace: workspace,
     path,
     requestBody: {
       args,
@@ -74,7 +73,7 @@ async function getResult(uuid: string): Promise<any> {
   let jobRunning = false;
   while (!jobCompleted) {
     const { running, completed } = await JobService.getJobUpdates({
-      workspace: getWorkspace(),
+      workspace: workspace,
       id: uuid,
       running: jobRunning,
     });
@@ -84,7 +83,7 @@ async function getResult(uuid: string): Promise<any> {
     jobCompleted = completed ?? false;
   }
   return JobService.getCompletedJobResult({
-    workspace: getWorkspace(),
+    workspace: workspace,
     id: uuid,
   });
 }
