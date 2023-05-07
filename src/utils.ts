@@ -69,7 +69,7 @@ export async function executeWorkspaceFlow(
 }
 
 async function getResult(uuid: string): Promise<any> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     setTimeout(async () => {
       try {
         const res = await JobService.getCompletedJobResult({
