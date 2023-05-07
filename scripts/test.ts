@@ -1,8 +1,8 @@
-export async function main() {
+export async function main(x: string) {
   console.log("Hello from test.ts");
-  foo();
+  return foo(x);
 }
 
-function foo(): string {
-  console.log("foo");
+function foo(x: string): string {
+  return "FOO: " + x;
 }
