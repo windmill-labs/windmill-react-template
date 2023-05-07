@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "build-poc": "npm run build && cp dist/app.iife.js /git/windmill/frontend/static"
+    "build-poc": "npm run build && cp dist/app.iife.js /git/windmill/frontend/static/"
   },
   "dependencies": {
     "react": "^18.2.0",
