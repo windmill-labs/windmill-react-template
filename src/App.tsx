@@ -30,7 +30,7 @@ function App() {
       OpenAPI.TOKEN = import.meta.env.VITE_TOKEN;
     }
     whoami();
-    executeTest();
+    executeTest().then();
   }, []);
 
   return (
