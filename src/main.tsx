@@ -13,3 +13,9 @@ globalThis.render = () =>
       <App />
     </React.StrictMode>
   );
+
+if (import.meta.env.MODE === "development") {
+  console.log("Running in development mode");
+  console.log("Start Render App");
+  globalThis.render()
+}
