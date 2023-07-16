@@ -68,22 +68,19 @@ export async function executeWorkspaceFlow(
   return getResult(uuid);
 }
 
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function getResult(uuid: string): Promise<any> {
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      try {
-        const res = await JobService.getCompletedJobResultMaybe({
-          workspace: workspace,
-          id: uuid,
-        });
-        if (res.completed) {
-          resolve(res.result);
-        } else {
-          getResult(uuid);
-        }
-      } catch (e) {
-        reject(e);
-      }
-    }, 100);
-  });
+  while (true) {
+    const res = await JobService.getCompletedJobResultMaybe({
+      workspace: workspace,
+      id: uuid,
+    });
+    if (res.completed) {
+      return res.result;
+    }
+    await delay(100);
+  }
 }
