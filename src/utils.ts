@@ -47,9 +47,7 @@ export async function executeWorkspaceScript(
   const uuid = await JobService.runScriptByPath({
     workspace: workspace,
     path,
-    requestBody: {
-      args,
-    },
+    requestBody: args,
   });
   return getResult(uuid);
 }
@@ -61,9 +59,7 @@ export async function executeWorkspaceFlow(
   const uuid = await JobService.runFlowByPath({
     workspace: workspace,
     path,
-    requestBody: {
-      args,
-    },
+    requestBody: args,
   });
   return getResult(uuid);
 }
