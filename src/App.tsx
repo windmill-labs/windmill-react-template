@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
-import testScript from "../scripts/test.ts?raw";
+import initialTestScript from "../scripts/test.ts?raw";
 import windmillLogo from "./assets/logo.svg";
 import { GlobalUserInfo, OpenAPI, Preview, UserService } from "windmill-client";
 import { executeInlineScript } from "./utils";
 
 function App() {
+  const [testScript, setTestScript] = useState<string>(initialTestScript);
   const [result, setResult] = useState("");
   const [arg, setArg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ function App() {
     );
     setLoading(false);
     setResult(result);
-  }, [arg]);
+  }, [arg, testScript]);
 
   const populateUser = useCallback(async () => {
     const userDetails = await UserService.globalWhoami();
@@ -48,7 +49,14 @@ function App() {
       <div>Email: {userDetails?.email}</div>
 
       <pre className="text-left border p-2 bg-gray-50 mt-4">
-        <code>{testScript}</code>
+        <code className="h-full">
+          <textarea
+            style={{ minHeight: "16rem" }}
+            onChange={(e) => setTestScript(e.target.value)}
+          >
+            {testScript}
+          </textarea>
+        </code>
       </pre>
 
       <div className="mt-2">
