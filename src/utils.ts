@@ -25,7 +25,7 @@ export function getUser() {
 }
 
 export async function executeInlineScript(
-  language: "deno" | "python3" | "bash" | "go",
+  language: Preview.language,
   content: string,
   args: any
 ): Promise<any> {
@@ -34,7 +34,7 @@ export async function executeInlineScript(
     requestBody: {
       content,
       args,
-      language: language as Preview.language,
+      language,
     },
   });
   return getResult(uuid);
@@ -69,7 +69,7 @@ function delay(ms: number) {
 }
 
 async function getResult(uuid: string): Promise<any> {
-  while (true) {
+  for (;;) {
     const res = await JobService.getCompletedJobResultMaybe({
       workspace: workspace,
       id: uuid,
